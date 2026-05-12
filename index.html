@@ -110,6 +110,29 @@
       justify-content: flex-end;
       padding: 0 var(--ph) 28px;
     }
+    /* ─── LOADING SPINNER ─────────────────────────── */
+    .gen-spinner {
+      width: 48px; height: 48px;
+      border: 3px solid rgba(255,255,255,0.20);
+      border-top-color: rgba(255,255,255,0.88);
+      border-radius: 50%;
+      animation: gen-spin 0.85s linear infinite;
+      margin-bottom: 32px;
+    }
+    @keyframes gen-spin { to { transform: rotate(360deg); } }
+    /* ─── PROGRESS BAR overrides for dark photo bg ─ */
+    #s-generating .gen-bar-wrap {
+      background: rgba(255,255,255,0.18);
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    #s-generating .gen-bar-fill {
+      background: linear-gradient(90deg, rgba(255,255,255,0.70) 0%, #FFFFFF 100%);
+    }
+    #s-generating .gen-step-label {
+      color: rgba(255,255,255,0.65);
+      min-height: 18px;
+    }
     .gen-title {
       font: 700 38px/1.15 'Plus Jakarta Sans', sans-serif;
       color: #FFFFFF;
@@ -3162,9 +3185,13 @@
         </div>
       </div>
       <div class="gen-content">
+        <div class="gen-spinner"></div>
         <h2 class="gen-title">Almost Ready!</h2>
         <p class="gen-sub">Our AI personal coach is creating a training plan, just for you.</p>
-        <p class="gen-step-label" id="gen-step-label" style="display:none;"></p>
+        <div class="gen-bar-wrap">
+          <div class="gen-bar-fill" id="gen-bar-fill"></div>
+        </div>
+        <p class="gen-step-label" id="gen-step-label">Analysing your goal...</p>
         <span id="gen-name" style="display:none;"></span>
       </div>
       <div class="gen-info-card">
@@ -4286,7 +4313,9 @@
       var pnEl = document.getElementById('plan-name-display'); if (pnEl) pnEl.textContent = userName || 'there';
 
       go('s-generating');
+      var barEl = document.getElementById('gen-bar-fill'); if (barEl) barEl.style.width = '0%';
 
+      var stepEl = document.getElementById('gen-step-label'); if (stepEl) stepEl.textContent = 'Analysing your goal...';
       var steps = ['Analysing your goal...', 'Building your workout schedule...', 'Personalising exercises...', 'Almost done...'];
       var fill  = document.getElementById('gen-bar-fill');
       var step  = document.getElementById('gen-step-label');
