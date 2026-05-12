@@ -110,16 +110,6 @@
       justify-content: flex-end;
       padding: 0 var(--ph) 28px;
     }
-    /* ─── LOADING SPINNER ─────────────────────────── */
-    .gen-spinner {
-      width: 48px; height: 48px;
-      border: 3px solid rgba(255,255,255,0.20);
-      border-top-color: rgba(255,255,255,0.88);
-      border-radius: 50%;
-      animation: gen-spin 0.85s linear infinite;
-      margin-bottom: 32px;
-    }
-    @keyframes gen-spin { to { transform: rotate(360deg); } }
     /* ─── PROGRESS BAR overrides for dark photo bg ─ */
     #s-generating .gen-bar-wrap {
       background: rgba(255,255,255,0.18);
@@ -3185,7 +3175,6 @@
         </div>
       </div>
       <div class="gen-content">
-        <div class="gen-spinner"></div>
         <h2 class="gen-title">Almost Ready!</h2>
         <p class="gen-sub">Our AI personal coach is creating a training plan, just for you.</p>
         <div class="gen-bar-wrap">
