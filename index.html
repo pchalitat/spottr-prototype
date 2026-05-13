@@ -1429,7 +1429,7 @@
       border-radius: 12px; overflow: hidden; backdrop-filter: blur(14px);
     }
     #s-exercise .nu-lbl { font-size: 8.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.38); padding: 7px 9px 3px; }
-    #s-exercise .nu-thumb { width: 100%; height: 48px; background: linear-gradient(135deg, #102030 0%, #081420 100%); display: flex; align-items: center; justify-content: center; }
+    #s-exercise .nu-thumb { width: 100%; height: 48px; overflow: hidden; }
     #s-exercise .nu-name { font-size: 9.5px; font-weight: 500; color: rgba(255,255,255,0.72); padding: 5px 9px 7px; line-height: 1.35; }
     /* ─── SHEET ─── */
     #s-exercise .sheet {
@@ -2678,6 +2678,81 @@
       .plan-review-lead h2 { font-size: 20px; }
       .gen-title { font-size: 22px; }
     }
+    /* ─── REST OVERLAY — light theme ─── */
+    #s-exercise .rest-overlay {
+      background: url('../Components%26Assets/Background_afterOB.png') center/cover no-repeat !important;
+    }
+    #s-exercise .rest-overlay .rest-grid { display: none; }
+    #s-exercise .rest-overlay .rest-glow { display: none; }
+    #s-exercise .rest-overlay .rest-vignette { display: none; }
+    #s-exercise .rest-overlay .rest-s-time { color: #0F1217; }
+    #s-exercise .rest-overlay .rest-pre-lbl { color: #6B7280; }
+    #s-exercise .rest-overlay .rest-title { color: #0F1217; text-shadow: none; }
+    #s-exercise .rest-overlay .rest-ring {
+      background: rgba(126,177,254,0.06);
+      border: 1px solid rgba(126,177,254,0.22);
+    }
+    #s-exercise .rest-overlay .rest-timer-blob {
+      background: rgba(255,255,255,0.65);
+      border: 1.5px solid rgba(255,255,255,0.85);
+      box-shadow: 0 8px 40px rgba(126,177,254,0.5);
+    }
+    #s-exercise .rest-overlay .rest-timer-display { color: #0F1217; }
+    #s-exercise .rest-overlay .rest-rec-note { color: #6B7280; }
+    #s-exercise .rest-overlay .rest-breath-dot { background: #7EB1FE; }
+    #s-exercise .rest-overlay .rest-breath-text { color: #6B7280; }
+    #s-exercise .rest-overlay .rest-skip-icon {
+      background: rgba(15,18,23,0.08);
+      border: 1px solid rgba(15,18,23,0.14);
+    }
+    #s-exercise .rest-overlay .rest-skip-icon svg path { fill: rgba(15,18,23,0.7); }
+    #s-exercise .rest-overlay .rest-skip-label { color: #6B7280; }
+    #s-exercise .rest-overlay .rest-repeat-btn {
+      background: rgba(15,18,23,0.08);
+      border: 1px solid rgba(15,18,23,0.14);
+    }
+    #s-exercise .rest-overlay .rest-repeat-btn svg path { stroke: rgba(15,18,23,0.55); }
+    #s-exercise .rest-overlay .rest-duration-row svg circle,
+    #s-exercise .rest-overlay .rest-duration-row svg path { stroke: #6B7280; }
+    #s-exercise .rest-overlay .rest-next-up {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+    #s-exercise .rest-overlay .rnu-lbl { color: #9CA3AF; }
+    #s-exercise .rest-overlay .rnu-name { color: #0F1217; }
+    #s-exercise .rest-overlay .rnu-meta { color: #6B7280; }
+    #s-exercise .rest-overlay .rnu-thumb { background: none; overflow: hidden; }
+    #s-exercise .rest-overlay .rest-home-bar { background: rgba(15,18,23,0.18); }
+    /* ─── S-REST standalone screen ─── */
+    #s-rest {
+      background: url('../Components%26Assets/Background_afterOB.png') center/cover no-repeat;
+    }
+    #s-rest .rest-center {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      flex: 1; padding: 0 24px;
+    }
+    #s-rest .rest-label {
+      font-size: 20px; font-weight: 600; color: #0F1217; margin-bottom: 32px; text-align: center;
+    }
+    #s-rest .rest-ring-wrap {
+      position: relative; width: 180px; height: 180px; margin-bottom: 32px;
+    }
+    #s-rest .rest-center-inner {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    #s-rest .rest-countdown { font-size: 42px; font-weight: 700; color: #0F1217; }
+    #s-rest .rest-remaining { font-size: 12px; font-weight: 400; color: #4B5563; margin-top: 4px; }
+    #s-rest .rest-did-good { font-size: 18px; font-weight: 600; color: #0F1217; margin-bottom: 8px; }
+    #s-rest .rest-body { font-size: 14px; color: #4B5563; text-align: center; margin-bottom: 24px; }
+    /* ─── S-EXERCISE video element ─── */
+    #s-exercise .ex-video {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;
+    }
+    /* ─── S-EXERCISE visual thumb images ─── */
+    #s-exercise .visual-thumb-img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
   </style>
 </head>
 <body>
@@ -3351,22 +3426,14 @@
       
         <!-- Video -->
         <div class="video-area">
-          <div class="video-center">
-            <div class="vid-ring">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <rect x="2" y="4" width="12" height="12" rx="2.5" stroke="rgba(255,255,255,0.4)" stroke-width="1.4"/>
-                <path d="M14 7.5L18 5.5v9l-4-2V7.5Z" stroke="rgba(255,255,255,0.4)" stroke-width="1.4" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <span class="vid-hint">Exercise demo</span>
-          </div>
+          <video class="ex-video" autoplay muted loop playsinline>
+            <source src="../Components%26Assets/Hipthrust.mp4" type="video/mp4">
+          </video>
       
           <div class="next-up">
             <div class="nu-lbl">Next up</div>
             <div class="nu-thumb">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M4 2.5L11 7L4 11.5V2.5Z" fill="rgba(255,255,255,0.28)"/>
-              </svg>
+              <img src="../Components%26Assets/RDL.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
             </div>
             <div class="nu-name">Romanian deadlift</div>
           </div>
@@ -3513,12 +3580,7 @@
                 <!-- Focus -->
                 <div class="visual-card">
                   <div class="visual-thumb visual-thumb-focus">
-                    <div class="visual-thumb-icon">
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                        <circle cx="9" cy="9" r="6" stroke="#7eb8ff" stroke-width="1.5"/>
-                        <path d="M6 9l2 2 4-4" stroke="#7eb8ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    </div>
+                    <img src="../Components%26Assets/hip_thrust_1.png" alt="" class="visual-thumb-img">
                     <span class="visual-pill visual-pill-focus">Do this</span>
                   </div>
                   <div class="visual-card-lbl">Full hip extension, neutral spine</div>
@@ -3527,12 +3589,7 @@
                 <!-- Avoid -->
                 <div class="visual-card">
                   <div class="visual-thumb visual-thumb-avoid">
-                    <div class="visual-thumb-icon">
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                        <circle cx="9" cy="9" r="6" stroke="#ff9a9a" stroke-width="1.5"/>
-                        <path d="M6.5 6.5l5 5M11.5 6.5l-5 5" stroke="#ff9a9a" stroke-width="1.5" stroke-linecap="round"/>
-                      </svg>
-                    </div>
+                    <img src="../Components%26Assets/hip_thrust_dont.png" alt="" class="visual-thumb-img">
                     <span class="visual-pill visual-pill-avoid">Avoid</span>
                   </div>
                   <div class="visual-card-lbl">Lower back arch at the top</div>
@@ -3695,6 +3752,27 @@
           </div>
 <div class="rest-status">
             <span class="rest-s-time">9:41</span>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <!-- Signal bars -->
+              <svg width="17" height="12" viewBox="0 0 17 12" fill="#0F1217">
+                <rect x="0" y="7" width="3" height="5" rx="0.7"/>
+                <rect x="4.5" y="5" width="3" height="7" rx="0.7"/>
+                <rect x="9" y="2.5" width="3" height="9.5" rx="0.7"/>
+                <rect x="13.5" y="0" width="3" height="12" rx="0.7"/>
+              </svg>
+              <!-- Wifi -->
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+                <path d="M1 4C3.6 1.5 8 1 8 1s4.4.5 7 3" stroke="#0F1217" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M3.2 6.8C4.8 5.2 8 4.8 8 4.8s3.2.4 4.8 2" stroke="#0F1217" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="8" cy="10.5" r="1.2" fill="#0F1217"/>
+              </svg>
+              <!-- Battery -->
+              <svg width="26" height="12" viewBox="0 0 26 12" fill="none">
+                <rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="#0F1217" stroke-width="1"/>
+                <rect x="2" y="2" width="15" height="8" rx="1.8" fill="#0F1217"/>
+                <path d="M23 4v4" stroke="#0F1217" stroke-width="1.8" stroke-linecap="round" opacity="0.45"/>
+              </svg>
+            </div>
           </div>
       
           <!-- Next up card — full width horizontal -->
@@ -3702,9 +3780,7 @@
             <div class="rnu-lbl">Next up</div>
             <div class="rnu-row">
               <div class="rnu-thumb">
-                <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
-                  <path d="M4 2.5L11 7L4 11.5V2.5Z" fill="rgba(255,255,255,0.35)"/>
-                </svg>
+                <img src="../Components%26Assets/RDL.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:12px;">
               </div>
               <div class="rnu-info">
                 <div class="rnu-name">Romanian deadlift</div>
@@ -3800,7 +3876,7 @@
     <!-- ══════════════════════════════════════════════════════
          S09 — REST TIMER
     ══════════════════════════════════════════════════════ -->
-    <div id="s-rest" class="screen">
+    <div id="s-rest" class="screen" style="background: url('../Components%26Assets/Background_afterOB.png') center/cover no-repeat;">
 <div class="rest-center">
         <div class="rest-label">Take a rest...</div>
         <div class="rest-ring-wrap">
@@ -4683,6 +4759,30 @@ function showToast(msg) {
       if (confettiRAF) cancelAnimationFrame(confettiRAF);
       confettiRAF = requestAnimationFrame(frame);
     }
+
+  /* ─── KEYBOARD NAV (z = back, x = next) ─── */
+  var SCREEN_ORDER = [
+    's-splash', 's-name', 's-welcome-personal',
+    's-q1', 's-experience', 's-q2', 's-q3',
+    's-medical-intro', 's-medical-input', 's-health-sync',
+    's-plan-review', 's-generating', 's-plan',
+    's-session-overview', 's-exercise', 's-rest',
+    's-complete', 's-reentry', 's-home'
+  ];
+
+  document.addEventListener('keydown', function(e) {
+    var tag = document.activeElement && document.activeElement.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement.isContentEditable) return;
+    if (e.key !== 'z' && e.key !== 'x') return;
+
+    var active = document.querySelector('.screen.active');
+    if (!active) return;
+    var idx = SCREEN_ORDER.indexOf(active.id);
+    if (idx === -1) return;
+
+    if (e.key === 'z' && idx > 0) go(SCREEN_ORDER[idx - 1]);
+    if (e.key === 'x' && idx < SCREEN_ORDER.length - 1) go(SCREEN_ORDER[idx + 1]);
+  });
   </script>
 </body>
 </html>
