@@ -2723,6 +2723,35 @@
     #s-exercise .rest-overlay .rnu-meta { color: #6B7280; }
     #s-exercise .rest-overlay .rnu-thumb { background: none; overflow: hidden; }
     #s-exercise .rest-overlay .rest-home-bar { background: rgba(15,18,23,0.18); }
+    /* ─── S-REENTRY — Welcome back redesign ─── */
+    #s-reentry {
+      background: #0a0c10 url('assets/WelcomeBack_BG.png') center/cover no-repeat;
+      padding-top: 0;
+      justify-content: flex-end;
+    }
+    #s-reentry::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, transparent 28%, rgba(0,0,0,0.5) 58%, rgba(0,0,0,0.82) 100%);
+    }
+    #s-reentry .re-content {
+      position: relative; z-index: 2;
+      padding: 0 28px 20px;
+    }
+    #s-reentry .re-heading {
+      font-size: 30px; font-weight: 700; color: #fff;
+      letter-spacing: -0.6px; line-height: 1.2; margin-bottom: 12px;
+    }
+    #s-reentry .re-body {
+      font-size: 14px; font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.65;
+    }
+    #s-reentry .cta-zone {
+      position: relative; z-index: 2;
+      padding: 24px 28px 44px;
+      gap: 12px;
+    }
     /* ─── S-REST standalone screen ─── */
     #s-rest {
       background: #EEF4FF url('assets/Background_afterOB.png') center/cover no-repeat;
@@ -3874,30 +3903,6 @@
     </div>
 
     <!-- ══════════════════════════════════════════════════════
-         S09 — REST TIMER
-    ══════════════════════════════════════════════════════ -->
-    <div id="s-rest" class="screen" style="background: url('assets/Background_afterOB.png') center/cover no-repeat;">
-<div class="rest-center">
-        <div class="rest-label">Take a rest...</div>
-        <div class="rest-ring-wrap">
-          <svg width="180" height="180" style="transform:rotate(-90deg)">
-            <circle cx="90" cy="90" r="80" fill="none" stroke="#EEF2FC" stroke-width="10"/>
-            <circle cx="90" cy="90" r="80" fill="none" stroke="#7EB1FE" stroke-width="10"
-              stroke-linecap="round" id="rest-ring" class="ring-progress"
-              stroke-dasharray="502" stroke-dashoffset="0"/>
-          </svg>
-          <div class="rest-center-inner">
-            <div class="rest-countdown" id="rest-countdown">00:30</div>
-            <div class="rest-remaining">remaining</div>
-          </div>
-        </div>
-        <div class="rest-did-good">You did good</div>
-        <p class="rest-body">Remember to keep breathing during your workout</p>
-        <div class="text-link-blue" onclick="skipRest()">Skip the rest →</div>
-      </div>
-    </div>
-
-    <!-- ══════════════════════════════════════════════════════
          S11 — POST-SESSION SUMMARY
     ══════════════════════════════════════════════════════ -->
     <div id="s-complete" class="screen">
@@ -3936,20 +3941,21 @@
         </div>
       </div>
       <div class="cta-zone">
-        <button class="btn-dark" onclick="goHome()">See you next time →</button>
+        <button class="btn-dark" onclick="go('s-reentry')">See you next time →</button>
       </div>
     </div>
 
     <!-- ══════════════════════════════════════════════════════
-         RE-ENTRY
+         RE-ENTRY — Welcome back
     ══════════════════════════════════════════════════════ -->
     <div id="s-reentry" class="screen">
-<div class="re-center">
+      <div class="re-content">
         <h2 class="re-heading" id="re-greeting">Welcome back</h2>
-        <p class="re-body">It's been 6 days. Life happens. Showing up again is the hardest part. You did it.</p>
+        <p class="re-body">Everyone takes breaks, that's just how life goes. Your plan hasn't moved. You're still on track.</p>
       </div>
       <div class="cta-zone">
-        <button class="btn-dark" onclick="goHome()">Let's pick up where we left off</button>
+        <button class="btn-dark" onclick="go('s-session-overview')">Pick up where I left off →</button>
+        <button class="btn-liquid-glass" onclick="go('s-home')">See My Plan</button>
       </div>
     </div>
 
@@ -4766,7 +4772,7 @@ function showToast(msg) {
     's-q1', 's-experience', 's-q2', 's-q3',
     's-medical-intro', 's-medical-input', 's-health-sync',
     's-plan-review', 's-generating', 's-plan',
-    's-session-overview', 's-exercise', 's-rest',
+    's-session-overview', 's-exercise',
     's-complete', 's-reentry', 's-home'
   ];
 
