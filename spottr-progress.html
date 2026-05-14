@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spottr — Monthly Wrapped</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --color-primary: #1762F9;
+  --color-primary-light: #4E88FA;
+  --color-primary-dim: #D8E6FF;
+  --color-primary-dark: #1050D4;
+  --color-lavender: #9080C8;
+  --color-lavender-dim: #D0C8F0;
+  --color-teal: #60A8A0;
+  --color-teal-light: #B8D4D0;
+  --color-slate: #1A1A2E;
+  --color-stone: #68788C;
+  --color-pebble: #98AAB8;
+  --color-divide: #CDD8EE;
+  --color-navy: #1A2044;
+  --bg: #F6F7F9;
+  --color-surface: #FFFFFF;
+}
+body {
+  background: #D8D8E2; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem 1rem; font-family: 'Outfit', sans-serif;
+}
+
+/* Phone */
+.phone {
+  width: 375px; height: 812px;
+  border-radius: 52px; border: 1.5px solid rgba(255,255,255,0.7);
+  overflow: hidden; position: relative;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9),
+              0 32px 80px rgba(0,0,0,0.22), 0 8px 24px rgba(0,0,0,0.12);
+}
+.island {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 34px; background: #000; border-radius: 20px;
+  z-index: 100; pointer-events: none;
+}
+.home-bar {
+  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+  width: 134px; height: 5px; border-radius: 3px; z-index: 100;
+  pointer-events: none; transition: background 0.5s;
+}
+
+/* Screens */
+.screen {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+  z-index: 1; overflow: hidden;
+}
+.screen.show { opacity: 1; visibility: visible; z-index: 2; }
+
+/* ─────────────────────────────────
+   S15 — Entry
+───────────────────────────────── */
+#s15 { background: url('assets/Background_afterOB.png') center/cover no-repeat, #F6F7F9; }
+.s15-sbar {
+  height: 54px; display: flex; align-items: flex-end;
+  justify-content: space-between; padding: 0 26px 10px; flex-shrink: 0;
+}
+.s15-sbar span { font-size: 15px; font-weight: 600; color: var(--color-slate); letter-spacing: -0.01em; }
+.s15-body { flex:1; display:flex; flex-direction:column; padding: 0 28px 32px; }
+.s15-hero { flex:1; display:flex; flex-direction:column; justify-content:center; }
+.eyebrow { font-size:11px; font-weight:500; letter-spacing:0.13em; text-transform:uppercase; color:var(--color-stone); margin-bottom:14px; }
+.s15-month { font-size:54px; font-weight:300; font-family:'Plus Jakarta Sans', sans-serif; color:var(--color-slate); line-height:1; letter-spacing:-0.03em; margin-bottom:18px; }
+.s15-rule { width:28px; height:2px; background:var(--color-primary); border-radius:2px; margin-bottom:14px; }
+.s15-sub { font-size:15px; font-weight:300; color:var(--color-stone); line-height:1.7; margin-bottom:28px; }
+.stat-card {
+  background:rgba(255,255,255,0.7); backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.9);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), 0 4px 20px rgba(0,0,0,0.06);
+  border-radius:20px; padding:22px 22px 20px; margin-bottom:24px; position:relative; overflow:hidden;
+}
+.stat-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--color-primary),var(--color-lavender)); border-radius:20px 20px 0 0;
+}
+.stat-num { font-size:52px; font-weight:300; font-family:'DM Mono', monospace; color:var(--color-slate); line-height:1; letter-spacing:-0.03em; }
+.stat-lbl { font-size:13px; font-weight:400; color:var(--color-stone); margin-top:4px; margin-bottom:12px; }
+.stat-hook { font-size:13px; font-weight:500; color:var(--color-primary); }
+.cta-stack { display:flex; flex-direction:column; gap:10px; }
+.btn-dark {
+  width:100%; height:56px;
+  background: linear-gradient(180deg, #3A3A3C 0%, #1E1E1E 100%);
+  color:#fff; border:none; border-radius:999px;
+  font:600 16px/1 'Outfit',sans-serif; letter-spacing:0.2px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 4px 24px rgba(0,0,0,0.28);
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition: transform 80ms ease, background 140ms ease, box-shadow 140ms ease;
+}
+.btn-dark:hover {
+  background: linear-gradient(180deg, #4A4A4E 0%, #2A2A2A 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 32px rgba(0,0,0,0.38);
+}
+.btn-dark:active {
+  background: linear-gradient(180deg, #2A2A2C 0%, #141414 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 2px 12px rgba(0,0,0,0.40);
+  transform: scale(0.97);
+}
+.btn-light {
+  width:100%; height:52px;
+  background: rgba(255,255,255,0.85); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  color:var(--color-slate); border:1.5px solid rgba(255,255,255,0.65); border-radius:999px;
+  font:500 15px/1 'Outfit',sans-serif;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.90);
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition: transform 80ms ease, background 140ms ease, box-shadow 140ms ease;
+}
+.btn-light:hover { background:rgba(255,255,255,0.50); border-color:rgba(255,255,255,0.30); }
+.btn-light:active { background:rgba(255,255,255,0.35); border-color:rgba(255,255,255,0.20); transform:scale(0.97); }
+
+/* ─────────────────────────────────
+   S16 — Wrapped slides
+───────────────────────────────── */
+#s16 { background: #1A2044; } /* fallback */
+
+/* Fixed chrome: status bar + story bars + back — sits above everything */
+.slide-chrome {
+  position: absolute; top: 0; left: 0; right: 0;
+  z-index: 50; pointer-events: none;
+}
+.slide-chrome .chrome-sbar {
+  height: 54px; display: flex; align-items: flex-end;
+  justify-content: space-between; padding: 0 26px 10px;
+}
+.slide-chrome .chrome-sbar span { font-size:15px; font-weight:600; color:rgba(255,255,255,0.75); letter-spacing:-0.01em; }
+.story-bars {
+  display: flex; gap: 4px; padding: 0 20px 10px;
+}
+.story-bar { flex:1; height:2px; background:rgba(255,255,255,0.25); border-radius:2px; overflow:hidden; }
+.story-bar-fill { height:100%; background:rgba(255,255,255,0.9); border-radius:2px; width:0%; }
+.story-bar-fill.done { width:100%; }
+.story-bar-fill.active { animation: fillBar var(--dur,5.5s) linear forwards; }
+@keyframes fillBar { from{width:0%} to{width:100%} }
+
+/* Back button — pointer-events on */
+.nav-back {
+  position: absolute; top: 72px; left: 20px; z-index: 51;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.22);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 14px; color: rgba(255,255,255,0.85);
+  pointer-events: all;
+}
+
+/* Slide container */
+.slides-wrap { position: absolute; inset: 0; }
+
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  opacity: 0; visibility: hidden; pointer-events: none; z-index: 1;
+  /* Top padding = status bar 54 + story bars ~22 + gap 12 = 88 */
+  padding: 108px 28px 36px;
+}
+.slide.show { opacity: 1; visibility: visible; pointer-events: all; z-index: 2; }
+
+/* Slide label */
+.sl-label {
+  font-size:11px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase;
+  color:rgba(255,255,255,0.45); margin-bottom:10px; opacity:0; flex-shrink:0;
+}
+/* Big hero number */
+.sl-num {
+  font-size:72px; font-weight:300; font-family:'DM Mono', monospace;
+  line-height:0.9; letter-spacing:-0.04em; color:#fff; margin-bottom:4px; opacity:0; flex-shrink:0;
+}
+.sl-num-unit { font-size:22px; font-weight:300; letter-spacing:-0.01em; }
+/* Supporting text */
+.sl-text {
+  font-size:14px; font-weight:300; color:rgba(255,255,255,0.6);
+  line-height:1.6; margin-bottom:14px; opacity:0; flex-shrink:0;
+}
+.sl-text b { font-weight:500; color:#fff; }
+
+/* ── Detail cards (restored from previous) ── */
+.detail-cards { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; opacity:0; flex-shrink:0; }
+.detail-card {
+  background: rgba(255,255,255,0.11);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 14px; padding: 12px 14px;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.dc-left { flex-shrink:0; min-width: 68px; }
+.dc-lbl { font-size:9px; font-weight:500; letter-spacing:0.09em; text-transform:uppercase; color:rgba(255,255,255,0.38); margin-bottom:2px; }
+.dc-val { font-size:16px; font-weight:300; color:#fff; letter-spacing:-0.01em; white-space:nowrap; }
+.dc-div { width:1px; background:rgba(255,255,255,0.15); align-self:stretch; flex-shrink:0; }
+.dc-title { font-size:12px; font-weight:500; color:#fff; margin-bottom:2px; }
+.dc-body { font-size:11px; font-weight:300; color:rgba(255,255,255,0.55); line-height:1.5; }
+.dc-body b { font-weight:500; color:rgba(255,255,255,0.85); }
+
+/* ── Stat widget — fills remaining vertical space ── */
+.stat-widget {
+  background: rgba(255,255,255,0.09);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 18px; padding: 16px 18px;
+  display: flex; align-items: stretch; gap: 16px;
+  margin-bottom: 12px; opacity: 0;
+  flex: 1; min-height: 0;
+}
+.sw-left {
+  flex-shrink: 0; display: flex;
+  flex-direction: column; justify-content: flex-end;
+  min-width: 72px;
+}
+.sw-label { font-size:9px; font-weight:500; letter-spacing:0.09em; text-transform:uppercase; color:rgba(255,255,255,0.38); margin-bottom:4px; }
+.sw-val { font-size:26px; font-weight:300; color:#fff; line-height:1; letter-spacing:-0.02em; }
+.sw-tag { font-size:11px; font-weight:600; margin-top:4px; }
+.sw-divider { width:1px; background:rgba(255,255,255,0.12); flex-shrink:0; }
+.sw-chart { flex:1; display:flex; flex-direction:column; gap:8px; min-height:0; }
+.sw-chart-title { font-size:9px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.3); flex-shrink:0; }
+.sw-bars-row { flex:1; display:flex; align-items:flex-end; gap:5px; min-height:0; }
+.sw-bar { flex:1; border-radius:4px 4px 0 0; height:0%; transition: height 0.6s cubic-bezier(0.22,1,0.36,1); }
+.sw-bar.sw-prev { background: rgba(255,255,255,0.18); }
+.sw-legend-row { display:flex; gap:10px; flex-shrink:0; }
+.sw-leg { display:flex; align-items:center; gap:4px; font-size:9px; font-weight:400; color:rgba(255,255,255,0.35); }
+.sw-leg-dot { width:7px; height:7px; border-radius:2px; }
+
+/* Slide CTA */
+.sl-cta {
+  width:100%; height:52px; margin-top:auto;
+  background:rgba(255,255,255,0.15); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1.5px solid rgba(255,255,255,0.25); border-radius:999px;
+  font:500 15px/1 'Outfit',sans-serif; letter-spacing:0.2px;
+  color:#fff; cursor:pointer; opacity:0; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.20), 0 2px 12px rgba(0,0,0,0.18);
+  transition: transform 80ms ease, background 140ms ease;
+}
+.sl-cta:hover { background:rgba(255,255,255,0.22); }
+.sl-cta:active { background:rgba(255,255,255,0.10); transform:scale(0.97); }
+
+/* Blobs */
+.blob { position:absolute; border-radius:50%; filter:blur(70px); pointer-events:none; }
+
+/* Slide themes */
+#sl0 { background: linear-gradient(160deg,#1A2044 0%,#0D1430 100%); }
+#sl1 { background: linear-gradient(160deg,#1762F9 0%,#0D3580 100%); }
+#sl1 .sl-num { color: #D0C8F0; }
+#sl2 { background: linear-gradient(160deg,#60A8A0 0%,#2D5250 100%); }
+#sl2 .sl-num { color: #B8D4D0; }
+#sl3 { background: linear-gradient(160deg,#4A3890 0%,#2A1E60 100%); }
+#sl3 .sl-num { color: #D0C8F0; }
+
+/* Keyframes */
+@keyframes wordUp  { 0%{opacity:0;transform:translateY(30px) skewY(1.5deg)} 100%{opacity:1;transform:translateY(0) skewY(0)} }
+@keyframes fadeUp  { 0%{opacity:0;transform:translateY(14px)} 100%{opacity:1;transform:translateY(0)} }
+@keyframes popIn   { 0%{opacity:0;transform:scale(0.85) translateY(16px)} 60%{transform:scale(1.03) translateY(-3px)} 100%{opacity:1;transform:scale(1) translateY(0)} }
+@keyframes slideR  { 0%{opacity:0;transform:translateX(-18px)} 100%{opacity:1;transform:translateX(0)} }
+.anim-wordUp { animation: wordUp 0.6s cubic-bezier(0.22,1,0.36,1) forwards; }
+.anim-fadeUp { animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) forwards; }
+.anim-popIn  { animation: popIn  0.65s cubic-bezier(0.22,1,0.36,1) forwards; }
+.anim-slideR { animation: slideR 0.4s cubic-bezier(0.22,1,0.36,1) forwards; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="island"></div>
+  <div class="home-bar" id="home-bar" style="background:rgba(0,0,0,0.18);"></div>
+
+  <!-- ═══ S15 — Entry ═══ -->
+  <div class="screen show" id="s15">
+    <div class="s15-sbar">
+      <span>9:41</span>
+      <svg width="52" height="12" viewBox="0 0 52 12" fill="none">
+        <rect x="0" y="4" width="3" height="8" rx="1" fill="#111"/>
+        <rect x="5" y="2.5" width="3" height="9.5" rx="1" fill="#111"/>
+        <rect x="10" y="0" width="3" height="12" rx="1" fill="#111"/>
+        <rect x="15" y="0" width="2.5" height="12" rx="1" fill="#ccc"/>
+        <rect x="26.5" y="0.5" width="21" height="11" rx="3.5" stroke="#111" stroke-opacity="0.3"/>
+        <rect x="28" y="2" width="17" height="8" rx="2" fill="#111"/>
+      </svg>
+    </div>
+    <div style="display:flex;align-items:center;padding:0 20px 8px;flex-shrink:0;">
+      <button onclick="window.location.href='index.html'" style="display:flex;align-items:center;gap:6px;background:none;border:none;padding:0;cursor:pointer;color:#68788C;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#68788C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Home
+      </button>
+    </div>
+    <div class="s15-body">
+      <div class="s15-hero">
+        <div class="eyebrow">Spottr · Your Wrap</div>
+        <div class="s15-month">March</div>
+        <div class="s15-rule"></div>
+        <div class="s15-sub">A month of progress,<br>in one place.</div>
+        <div class="stat-card">
+          <div class="stat-num">8</div>
+          <div class="stat-lbl">Sessions completed</div>
+          <div class="stat-hook">Look what you did.</div>
+        </div>
+      </div>
+      <div class="cta-stack">
+        <button class="btn-dark" id="btn-see">See My Month →</button>
+        <button class="btn-light" id="btn-skip">Skip to Summary</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ S16 — Wrapped ═══ -->
+  <div class="screen" id="s16">
+
+    <!-- Fixed chrome: always on top -->
+    <div class="slide-chrome">
+      <div class="chrome-sbar">
+        <span>9:41</span>
+      </div>
+      <div class="story-bars" id="story-bars">
+        <div class="story-bar"><div class="story-bar-fill" id="bar0"></div></div>
+        <div class="story-bar"><div class="story-bar-fill" id="bar1"></div></div>
+        <div class="story-bar"><div class="story-bar-fill" id="bar2"></div></div>
+        <div class="story-bar"><div class="story-bar-fill" id="bar3"></div></div>
+      </div>
+    </div>
+    <button class="nav-back" id="btn-back">←</button>
+
+    <!-- Slides -->
+    <div class="slides-wrap">
+
+      <!-- ── Slide 0: Sessions (navy) ── -->
+      <div class="slide show" id="sl0">
+        <div class="blob" style="width:200px;height:200px;background:#1762F9;top:-30px;right:-30px;opacity:0.3;"></div>
+        <div class="blob" style="width:140px;height:140px;background:#9080C8;bottom:100px;left:-40px;opacity:0.2;"></div>
+
+        <div class="sl-label" id="sl0-lbl">Sessions</div>
+        <div class="sl-num" id="sl0-num">8</div>
+        <div class="sl-text" id="sl0-txt">Sessions in your first month. Showing up three times a week is harder than it sounds. <b>You made it look easy.</b></div>
+
+        <div class="detail-cards" id="sl0-cards">
+          <div class="detail-card">
+            <div class="dc-left"><div class="dc-lbl">Best Session</div><div class="dc-val">March 14</div></div>
+            <div class="dc-div"></div>
+            <div><div class="dc-title">Leg Day</div><div class="dc-body">Every set, every rep — <b>8 minutes faster</b> than your first session.</div></div>
+          </div>
+          <div class="detail-card">
+            <div class="dc-left"><div class="dc-lbl">Longest Break</div><div class="dc-val">4 days</div></div>
+            <div class="dc-div"></div>
+            <div><div class="dc-title">Without showing up</div><div class="dc-body">Most people quit in week two. You kept coming back. <b>That's the whole game.</b></div></div>
+          </div>
+        </div>
+
+        <div class="stat-widget" id="sl0-widget">
+          <div class="sw-left">
+            <div class="sw-label">vs. February</div>
+            <div class="sw-val">+8</div>
+            <div class="sw-tag" style="color:#4E88FA;">↑ Your first</div>
+          </div>
+          <div class="sw-divider"></div>
+          <div class="sw-chart">
+            <div class="sw-chart-title">Sessions · Week by Week</div>
+            <div class="sw-bars-row" id="sl0-wbars"></div>
+            <div class="sw-legend-row">
+              <div class="sw-leg"><div class="sw-leg-dot" style="background:rgba(255,255,255,0.22);"></div>Feb</div>
+              <div class="sw-leg"><div class="sw-leg-dot" style="background:linear-gradient(180deg,#4E88FA,#1762F9);"></div>Mar</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="sl-cta" id="sl0-cta">Next →</button>
+      </div>
+
+      <!-- ── Slide 1: Volume (purple) ── -->
+      <div class="slide" id="sl1">
+        <div class="blob" style="width:220px;height:220px;background:#4E88FA;top:-50px;left:-50px;opacity:0.2;"></div>
+        <div class="blob" style="width:160px;height:160px;background:#9080C8;bottom:80px;right:-40px;opacity:0.18;"></div>
+
+        <div class="sl-label" id="sl1-lbl">Volume</div>
+        <div class="sl-num" id="sl1-num">2,000 <span class="sl-num-unit">kg</span></div>
+        <div class="sl-text" id="sl1-txt">Total weight moved this month. For your first 30 days, that's <b>a genuinely solid start.</b></div>
+
+        <div class="detail-cards" id="sl1-cards">
+          <div class="detail-card">
+            <div class="dc-left"><div class="dc-lbl">Top Exercise</div><div class="dc-val" style="color:#D0C8F0;">Goblet squat</div></div>
+            <div class="dc-div"></div>
+            <div><div class="dc-title">Your highest volume lift</div><div class="dc-body">You're building a strong foundation. Form before load — <b>you got that right.</b></div></div>
+          </div>
+          <div class="detail-card">
+            <div class="dc-left"><div class="dc-lbl">Per Session</div><div class="dc-val" style="color:#D0C8F0;">250 kg</div></div>
+            <div class="dc-div"></div>
+            <div><div class="dc-title">Average per session</div><div class="dc-body">Each week you added a little more weight. <b>That's progressive overload working.</b></div></div>
+          </div>
+        </div>
+
+        <div class="stat-widget" id="sl1-widget">
+          <div class="sw-left">
+            <div class="sw-label">vs. February</div>
+            <div class="sw-val">+2k</div>
+            <div class="sw-tag" style="color:#D0C8F0;">↑ Your first</div>
+          </div>
+          <div class="sw-divider"></div>
+          <div class="sw-chart">
+            <div class="sw-chart-title">Volume (kg) · Week by Week</div>
+            <div class="sw-bars-row" id="sl1-wbars"></div>
+            <div class="sw-legend-row">
+              <div class="sw-leg"><div class="sw-leg-dot" style="background:rgba(255,255,255,0.22);"></div>Feb</div>
+              <div class="sw-leg"><div class="sw-leg-dot" style="background:linear-gradient(180deg,#D0C8F0,#4E88FA);"></div>Mar</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="sl-cta" id="sl1-cta">Next →</button>
+      </div>
+
+      <!-- ── Slide 2: Recovery (teal) ── -->
+      <div class="slide" id="sl2">
+        <div class="blob" style="width:200px;height:200px;background:#60A8A0;top:-40px;right:-30px;opacity:0.25;"></div>
+        <div class="blob" style="width:130px;height:130px;background:#055540;bottom:90px;left:-30px;opacity:0.4;"></div>
+
+        <div class="sl-label" id="sl2-lbl">Recovery</div>
+        <div class="sl-num" id="sl2-num">19</div>
+        <div class="sl-text" id="sl2-txt">Rest days this month. For a beginner, <b>recovery is where the gains actually happen.</b></div>
+
+        <div class="detail-cards" id="sl2-cards">
+          <div class="detail-card">
+            <div class="dc-left"><div class="dc-lbl">Best PR</div><div class="dc-val" style="color:#B8D4D0;">40 kg</div></div>
+            <div class="dc-div"></div>
+            <div><div class="dc-title">Squat — March 18</div><div class="dc-body">Your first real PR. <b>You loaded the bar yourself</b> and hit it clean.</div></div>
+          </div>
+          <div class="detail-card">
+            <div class="dc-left"><div class="dc-lbl">Work / Rest</div><div class="dc-val" style="color:#B8D4D0;">39%</div></div>
+            <div class="dc-div"></div>
+            <div><div class="dc-title">Training days this month</div><div class="dc-body">Beginners need more rest, not less. <b>You let your body adapt.</b></div></div>
+          </div>
+        </div>
+
+        <div class="stat-widget" id="sl2-widget">
+          <div class="sw-left">
+            <div class="sw-label">vs. February</div>
+            <div class="sw-val">19</div>
+            <div class="sw-tag" style="color:#B8D4D0;">days recovered</div>
+          </div>
+          <div class="sw-divider"></div>
+          <div class="sw-chart">
+            <div class="sw-chart-title">Rest Days · Week by Week</div>
+            <div class="sw-bars-row" id="sl2-wbars"></div>
+            <div class="sw-legend-row">
+              <div class="sw-leg"><div class="sw-leg-dot" style="background:rgba(255,255,255,0.22);"></div>Feb</div>
+              <div class="sw-leg"><div class="sw-leg-dot" style="background:linear-gradient(180deg,#B8D4D0,#60A8A0);"></div>Mar</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="sl-cta" id="sl2-cta">Next →</button>
+      </div>
+
+      <!-- ── Slide 3: PRs / Best lifts (amber) ── -->
+      <div class="slide" id="sl3">
+        <div class="blob" style="width:200px;height:200px;background:#9080C8;top:-40px;right:-20px;opacity:0.22;"></div>
+        <div class="blob" style="width:150px;height:150px;background:#a05010;bottom:90px;left:-30px;opacity:0.2;"></div>
+
+        <div class="sl-label" id="sl3-lbl">Personal Records</div>
+        <div class="sl-num" id="sl3-num">2 <span class="sl-num-unit">PRs</span></div>
+        <div class="sl-text" id="sl3-txt">Personal records in your first month. Every number you set right now <b>is a starting point — and it goes up from here.</b></div>
+
+        <div class="detail-cards" id="sl3-cards">
+          <div class="detail-card">
+            <div class="dc-left"><div class="dc-lbl">Top PR</div><div class="dc-val" style="color:#D0C8F0;">40 kg</div></div>
+            <div class="dc-div"></div>
+            <div><div class="dc-title">Squat — March 18</div><div class="dc-body">Your first PR, ever. It doesn't matter how much — <b>it matters that you hit it.</b></div></div>
+          </div>
+          <div class="detail-card">
+            <div class="dc-left"><div class="dc-lbl">Bench Press</div><div class="dc-val" style="color:#D0C8F0;">30 kg</div></div>
+            <div class="dc-div"></div>
+            <div><div class="dc-title">Bench press PR</div><div class="dc-body">Started at 20 kg. Added 10 kg in four weeks. <b>That's a 50% improvement.</b></div></div>
+          </div>
+        </div>
+
+        <div class="stat-widget" id="sl3-widget">
+          <div class="sw-left">
+            <div class="sw-label">vs. February</div>
+            <div class="sw-val">2</div>
+            <div class="sw-tag" style="color:#D0C8F0;">First PRs ever</div>
+          </div>
+          <div class="sw-divider"></div>
+          <div class="sw-chart">
+            <div class="sw-chart-title">Lift progress · Week by Week</div>
+            <div class="sw-bars-row" id="sl3-wbars"></div>
+            <div class="sw-legend-row">
+              <div class="sw-leg"><div class="sw-leg-dot" style="background:rgba(255,255,255,0.22);"></div>Feb</div>
+              <div class="sw-leg"><div class="sw-leg-dot" style="background:linear-gradient(180deg,#D0C8F0,#9080C8);"></div>Mar</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="sl-cta" id="sl3-cta">Done ✓</button>
+      </div>
+
+    </div><!-- slides-wrap -->
+  </div><!-- s16 -->
+
+  <!-- ═══════════════════════════════════
+       S17 — Milestone Overview
+  ════════════════════════════════════ -->
+  <div class="screen" id="s17" style="background:url('assets/Background_afterOB.png') center/cover no-repeat, #F6F7F9;overflow:hidden;">
+
+    <!-- Status bar -->
+    <div style="height:54px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 26px 10px;flex-shrink:0;">
+      <span style="font-size:15px;font-weight:600;color:#1A1A2E;letter-spacing:-0.01em;">9:41</span>
+      <svg width="52" height="12" viewBox="0 0 52 12" fill="none">
+        <rect x="0" y="4" width="3" height="8" rx="1" fill="#111"/>
+        <rect x="5" y="2.5" width="3" height="9.5" rx="1" fill="#111"/>
+        <rect x="10" y="0" width="3" height="12" rx="1" fill="#111"/>
+        <rect x="15" y="0" width="2.5" height="12" rx="1" fill="#ccc"/>
+        <rect x="26.5" y="0.5" width="21" height="11" rx="3.5" stroke="#111" stroke-opacity="0.3"/>
+        <rect x="28" y="2" width="17" height="8" rx="2" fill="#111"/>
+      </svg>
+    </div>
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 20px 14px;flex-shrink:0;">
+      <button id="s17-back" style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.52);backdrop-filter:blur(20px) saturate(1.7);-webkit-backdrop-filter:blur(20px) saturate(1.7);border:1px solid rgba(255,255,255,0.8);box-shadow:inset 0 1px 0 rgba(255,255,255,0.92),0 4px 16px rgba(0,0,0,0.07);display:flex;align-items:center;justify-content:center;font-size:15px;color:#1A1A2E;cursor:pointer;">←</button>
+      <span style="font-size:17px;font-weight:600;color:#1A1A2E;letter-spacing:-0.015em;">Your Milestones</span>
+      <button id="s17-share" style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.52);backdrop-filter:blur(20px) saturate(1.7);-webkit-backdrop-filter:blur(20px) saturate(1.7);border:1px solid rgba(255,255,255,0.8);box-shadow:inset 0 1px 0 rgba(255,255,255,0.92),0 4px 16px rgba(0,0,0,0.07);display:flex;align-items:center;justify-content:center;font-size:13px;color:#68788C;cursor:pointer;">↗</button>
+    </div>
+
+    <!-- Month overview card -->
+    <div id="m17-bento" style="padding:0 18px 14px;flex-shrink:0;">
+      <div style="
+        border-radius:22px;
+        padding:20px 20px 18px;
+        background:rgba(255,255,255,0.52);
+        backdrop-filter:blur(20px) saturate(1.7);
+        -webkit-backdrop-filter:blur(20px) saturate(1.7);
+        border:1px solid rgba(255,255,255,0.82);
+        box-shadow:inset 0 1px 0 rgba(255,255,255,0.95),0 4px 20px rgba(0,0,0,0.07);
+        position:relative;overflow:hidden;
+      ">
+        <!-- Gradient accent top bar -->
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1762F9,#9080C8,#60A8A0);border-radius:22px 22px 0 0;"></div>
+
+        <!-- Persona chip -->
+        <div style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(23,98,249,0.1),rgba(144,128,200,0.08));border:1px solid rgba(23,98,249,0.15);border-radius:20px;padding:4px 12px;margin-bottom:12px;">
+          <span style="font-size:13px;">🏆</span>
+          <span style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#1762F9;">The Consistent Climber</span>
+        </div>
+
+        <!-- Summary line -->
+        <div style="font-size:15px;font-weight:400;color:#1A1A2E;line-height:1.6;margin-bottom:16px;letter-spacing:-0.01em;">
+          Your first 30 days. You showed up when it was hard, lifted more than you started with, and proved to yourself that you're someone who does this.
+        </div>
+
+        <!-- Inline stat row -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;border-top:1px solid rgba(0,0,0,0.07);padding-top:14px;">
+          <div style="text-align:center;padding-right:10px;border-right:1px solid rgba(0,0,0,0.07);">
+            <div style="font-size:20px;font-weight:300;color:#1A1A2E;letter-spacing:-0.02em;line-height:1;">
+              <span class="m17-cnt" data-to="8">8</span>
+            </div>
+            <div style="font-size:9px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:#68788C;margin-top:3px;">Sessions</div>
+          </div>
+          <div style="text-align:center;padding:0 8px;border-right:1px solid rgba(0,0,0,0.07);">
+            <div style="font-size:20px;font-weight:300;color:#1A1A2E;letter-spacing:-0.02em;line-height:1;">
+              <span class="m17-cnt" data-to="2">2</span>
+            </div>
+            <div style="font-size:9px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:#68788C;margin-top:3px;">PRs Set</div>
+          </div>
+          <div style="text-align:center;padding:0 8px;border-right:1px solid rgba(0,0,0,0.07);">
+            <div style="font-size:20px;font-weight:300;color:#1A1A2E;letter-spacing:-0.02em;line-height:1;">
+              <span class="m17-cnt" data-to="3">3</span>
+            </div>
+            <div style="font-size:9px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:#68788C;margin-top:3px;">Full Weeks</div>
+          </div>
+          <div style="text-align:center;padding-left:10px;">
+            <div style="font-size:20px;font-weight:300;color:#1A1A2E;letter-spacing:-0.02em;line-height:1;">
+              <span class="m17-cnt" data-to="30">30</span>
+            </div>
+            <div style="font-size:9px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:#68788C;margin-top:3px;">Day Badge</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab bar -->
+    <div style="display:flex;padding:0 18px;gap:2px;flex-shrink:0;border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="m17-tab active" data-tab="0" style="flex:1;padding:10px 2px;text-align:center;font-size:11px;font-weight:500;cursor:pointer;border-bottom:2px solid #1762F9;color:#1762F9;transition:all .2s;white-space:nowrap;">Personal Records</div>
+      <div class="m17-tab" data-tab="1" style="flex:1;padding:10px 2px;text-align:center;font-size:11px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:#68788C;transition:all .2s;white-space:nowrap;">Full Weeks</div>
+      <div class="m17-tab" data-tab="2" style="flex:1;padding:10px 2px;text-align:center;font-size:11px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:#68788C;transition:all .2s;white-space:nowrap;">30-Day Badge</div>
+    </div>
+
+    <!-- Panels -->
+    <div style="flex:1;overflow:hidden;position:relative;">
+
+      <!-- Panel 0: Personal Records -->
+      <div class="m17-panel active" id="m17-p0" style="position:absolute;inset:0;overflow-y:auto;padding:18px 18px 40px;opacity:1;visibility:visible;transition:opacity .25s,visibility .25s;">
+        <div class="m17-badge-hero" style="background:linear-gradient(145deg,#1a1240 0%,#362270 100%);border-radius:22px;padding:24px 20px 22px;margin-bottom:12px;position:relative;overflow:hidden;color:#fff;">
+          <span class="m17-badge-emoji" style="font-size:48px;display:block;margin-bottom:14px;line-height:1;">🏋️</span>
+          <div style="font-size:20px;font-weight:600;letter-spacing:-0.02em;margin-bottom:8px;line-height:1.2;">First-Time Record Breaker</div>
+          <div style="font-size:13px;font-weight:300;line-height:1.7;color:rgba(255,255,255,0.78);">You set 2 personal records in your very first month. Your squat and your bench press. Right now those numbers are small — but they're yours, and they only go up from here.</div>
+        </div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:#68788C;margin:16px 0 10px;">Breakthrough Moment</div>
+        <div class="m17-hlcard">
+          <div class="m17-icon" style="background:rgba(96,87,240,0.12);">💪</div>
+          <div style="flex:1;min-width:0;"><div class="m17-htitle">Squat — March 18</div><div class="m17-hsub">Your first personal record, ever</div></div>
+          <div class="m17-hval" style="color:#1762F9;"><span class="m17-cnt" data-to="40">40</span><span class="m17-hunit"> kg</span></div>
+        </div>
+        <div class="m17-hlcard">
+          <div class="m17-icon" style="background:rgba(96,87,240,0.12);">📈</div>
+          <div style="flex:1;min-width:0;"><div class="m17-htitle">Bench Press</div><div class="m17-hsub">Up +10 kg in four weeks — a 50% jump</div></div>
+          <div class="m17-hval" style="color:#1762F9;"><span class="m17-cnt" data-to="30">30</span><span class="m17-hunit"> kg</span></div>
+        </div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:#68788C;margin:16px 0 10px;">What You Said That Day</div>
+        <div class="m17-notescard">
+          <div class="m17-note">
+            <div class="m17-ndate">March 21 · After your squat session</div>
+            <div class="m17-nquote">"I actually hit it. I wasn't sure I could but I did."</div>
+            <span class="m17-chip" style="background:rgba(23,98,249,0.1);color:#1762F9;">💡 Breakthrough session</span>
+          </div>
+          <div class="m17-note" style="border-bottom:none;padding-bottom:4px;">
+            <div class="m17-ndate">March 14 · Leg Day</div>
+            <div class="m17-nquote">"Legs were burning but I pushed through. First time I've finished a full session."</div>
+            <span class="m17-chip" style="background:rgba(13,197,138,0.1);color:#60A8A0;">⚡ Flow state</span>
+          </div>
+        </div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:#68788C;margin:16px 0 10px;">What's Next for You</div>
+        <div class="m17-pmcard" style="background:linear-gradient(135deg,rgba(96,87,240,0.08),rgba(217,59,176,0.07));">
+          <div class="m17-pmey">Your April Focus</div>
+          <div class="m17-pmbody">You started from zero and hit your first real PR in four weeks. <b>That's a faster start than most.</b> April's plan builds on these numbers — same exercises, a little more weight each week.</div>
+        </div>
+      </div>
+
+      <!-- Panel 1: Full Weeks -->
+      <div class="m17-panel" id="m17-p1" style="position:absolute;inset:0;overflow-y:auto;padding:18px 18px 40px;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;">
+        <div class="m17-badge-hero" style="background:linear-gradient(145deg,#063d30 0%,#0d6b52 100%);border-radius:22px;padding:24px 20px 22px;margin-bottom:12px;position:relative;overflow:hidden;color:#fff;">
+          <span class="m17-badge-emoji" style="font-size:48px;display:block;margin-bottom:14px;line-height:1;">🔥</span>
+          <div style="font-size:20px;font-weight:600;letter-spacing:-0.02em;margin-bottom:8px;line-height:1.2;">Consistent Finisher</div>
+          <div style="font-size:13px;font-weight:300;line-height:1.7;color:rgba(255,255,255,0.78);">Three full weeks of consistent training in your first month. One week you missed — and you came back anyway. That comeback matters more than the miss.</div>
+        </div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:#68788C;margin:16px 0 10px;">Week by Week</div>
+        <div class="m17-hlcard">
+          <div class="m17-icon" style="background:rgba(96,168,160,0.12);">📅</div>
+          <div style="flex:1;min-width:0;"><div class="m17-htitle">Week 1 — Foundation</div><div class="m17-hsub">3 sessions · Finding your rhythm</div></div>
+          <div class="m17-hval" style="color:#60A8A0;font-size:18px;">✓</div>
+        </div>
+        <div class="m17-hlcard">
+          <div class="m17-icon" style="background:rgba(96,168,160,0.12);">⭐</div>
+          <div style="flex:1;min-width:0;"><div class="m17-htitle">Week 3 — Your Best Week</div><div class="m17-hsub">3 sessions · Squat PR set here</div></div>
+          <div class="m17-hval" style="color:#60A8A0;font-size:18px;">★</div>
+        </div>
+        <div class="m17-hlcard">
+          <div class="m17-icon" style="background:rgba(96,168,160,0.12);">🏁</div>
+          <div style="flex:1;min-width:0;"><div class="m17-htitle">Longest Active Streak</div><div class="m17-hsub">12 days in a row — a big deal in month one</div></div>
+          <div class="m17-hval" style="color:#60A8A0;"><span class="m17-cnt" data-to="12">12</span><span class="m17-hunit"> days</span></div>
+        </div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:#68788C;margin:16px 0 10px;">What You Said</div>
+        <div class="m17-notescard">
+          <div class="m17-note">
+            <div class="m17-ndate">Week 2 · Wednesday</div>
+            <div class="m17-nquote">"Almost talked myself out of going. Went anyway. So glad I did."</div>
+            <span class="m17-chip" style="background:rgba(13,197,138,0.1);color:#60A8A0;">💪 Showed up anyway</span>
+          </div>
+          <div class="m17-note" style="border-bottom:none;padding-bottom:4px;">
+            <div class="m17-ndate">End of Week 4</div>
+            <div class="m17-nquote">"Three weeks done. Missed one but I'm not stopping."</div>
+            <span class="m17-chip" style="background:rgba(13,197,138,0.1);color:#60A8A0;">🎯 Full month</span>
+          </div>
+        </div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:#68788C;margin:16px 0 10px;">Why This Matters</div>
+        <div class="m17-pmcard" style="background:linear-gradient(135deg,rgba(96,168,160,0.09),rgba(96,168,160,0.04));">
+          <div class="m17-pmey">The Science Behind It</div>
+          <div class="m17-pmbody">Getting to the gym consistently in month one is the hardest part of the whole journey. <b>You've already done that.</b> April will feel easier — because the habit is already forming.</div>
+        </div>
+      </div>
+
+      <!-- Panel 2: 30-Day Badge -->
+      <div class="m17-panel" id="m17-p2" style="position:absolute;inset:0;overflow-y:auto;padding:18px 18px 40px;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;">
+        <div class="m17-badge-hero" style="background:linear-gradient(145deg,#2a1804 0%,#543510 100%);border-radius:22px;padding:24px 20px 22px;margin-bottom:12px;position:relative;overflow:hidden;color:#fff;">
+          <span class="m17-badge-emoji" style="font-size:48px;display:block;margin-bottom:14px;line-height:1;">🎖️</span>
+          <div style="font-size:20px;font-weight:600;letter-spacing:-0.02em;margin-bottom:8px;line-height:1.2;">30 Days. No Excuses.</div>
+          <div style="font-size:13px;font-weight:300;line-height:1.7;color:rgba(255,255,255,0.78);">A full 30 days. 8 sessions, 2,000 kg moved, 2 personal records. You started as a complete beginner and finished the month as someone who goes to the gym. That's the whole point.</div>
+        </div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:#68788C;margin:16px 0 10px;">March in Numbers</div>
+        <div class="m17-hlcard">
+          <div class="m17-icon" style="background:rgba(144,128,200,0.12);">🗓️</div>
+          <div style="flex:1;min-width:0;"><div class="m17-htitle">Sessions Completed</div><div class="m17-hsub">March 1 – March 31</div></div>
+          <div class="m17-hval" style="color:#9080C8;"><span class="m17-cnt" data-to="8">8</span></div>
+        </div>
+        <div class="m17-hlcard">
+          <div class="m17-icon" style="background:rgba(144,128,200,0.12);">⚖️</div>
+          <div style="flex:1;min-width:0;"><div class="m17-htitle">Total Volume Lifted</div><div class="m17-hsub">Every single kg lifted from scratch</div></div>
+          <div class="m17-hval" style="color:#9080C8;"><span class="m17-cnt" data-to="2000" >2000</span><span class="m17-hunit"> kg</span></div>
+        </div>
+        <div class="m17-hlcard">
+          <div class="m17-icon" style="background:rgba(144,128,200,0.12);">😴</div>
+          <div style="flex:1;min-width:0;"><div class="m17-htitle">Rest Days Taken</div><div class="m17-hsub">Beginners need more rest — you got that right</div></div>
+          <div class="m17-hval" style="color:#9080C8;"><span class="m17-cnt" data-to="19">19</span></div>
+        </div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:#68788C;margin:16px 0 10px;">Your Own Words</div>
+        <div class="m17-notescard">
+          <div class="m17-note">
+            <div class="m17-ndate">March 1 · Day One</div>
+            <div class="m17-nquote">"Day one. I have no idea what I'm doing but I'm here."</div>
+            <span class="m17-chip" style="background:rgba(232,144,26,0.1);color:#9080C8;">🚀 Day-one energy</span>
+          </div>
+          <div class="m17-note" style="border-bottom:none;padding-bottom:4px;">
+            <div class="m17-ndate">March 31 · Final Session</div>
+            <div class="m17-nquote">"30 days. I actually did it."</div>
+            <span class="m17-chip" style="background:rgba(232,144,26,0.1);color:#9080C8;">🎖️ 30 days done</span>
+          </div>
+        </div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:#68788C;margin:16px 0 10px;">What Comes Next</div>
+        <div class="m17-pmcard" style="background:linear-gradient(135deg,rgba(144,128,200,0.09),rgba(176,160,240,0.06));">
+          <div class="m17-pmey">Looking Ahead to April</div>
+          <div class="m17-pmbody">On day one you said you had no idea what you were doing. By day 30, you knew exactly what you were doing. <b>April's plan is ready</b> — and now you're not a beginner anymore.</div>
+        </div>
+      </div>
+
+    </div><!-- panels -->
+  </div><!-- s17 -->
+
+  <!-- ═══════════════════════════════════
+       S18 — Shareable Card Output
+  ════════════════════════════════════ -->
+  <div id="s18" style="position:absolute;inset:0;background:transparent;overflow:hidden;z-index:20;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.2s ease,visibility 0.2s ease;">
+
+    <!-- Dimmed backdrop — shows S17 behind -->
+    <div id="s18-backdrop" style="position:absolute;inset:0;background:rgba(0,0,0,0.45);z-index:1;" onclick="closeShare()"></div>
+
+    <!-- Bottom sheet -->
+    <div id="s18-sheet" style="
+      position:absolute; bottom:0; left:0; right:0; z-index:2;
+      background:#F4F4F8;
+      border-radius:28px 28px 0 0;
+      border-top:1px solid rgba(255,255,255,0.8);
+      box-shadow:0 -8px 40px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.9);
+      padding-bottom:32px;
+      transform:translateY(100%);
+      transition:transform 0.42s cubic-bezier(0.22,1,0.36,1);
+    ">
+
+      <!-- Handle -->
+      <div style="display:flex;justify-content:center;padding:12px 0 4px;">
+        <div style="width:36px;height:4px;border-radius:2px;background:rgba(0,0,0,0.15);"></div>
+      </div>
+
+      <!-- Header row -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 20px 16px;">
+        <span style="font-size:17px;font-weight:600;color:#1A1A2E;letter-spacing:-0.015em;">Share Your Wrap</span>
+        <button onclick="closeShare()" style="width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,0.07);border:none;font-size:14px;color:#68788C;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+      </div>
+
+      <!-- Section label -->
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:#68788C;padding:0 20px 12px;">Select Your Card to Share</div>
+
+      <!-- Wrap card fonts -->
+      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@200;300;400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+      <style>
+        .wc { font-family:'DM Sans',sans-serif; }
+        .wc-syne { font-family:'Syne',sans-serif; }
+
+        /* Blob backgrounds per theme */
+        .wc-blobs { position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none; }
+        .wc-blob  { position:absolute;border-radius:50%; }
+
+        /* dark theme blobs */
+        .wc-dark .b1 { width:160px;height:260px;background:rgba(20,20,20,0.7);top:20px;left:50px;border-radius:40% 60% 60% 40%;filter:blur(24px); }
+        .wc-dark .b2 { width:90px;height:140px;background:rgba(8,8,8,0.55);top:60px;left:80px;border-radius:50%;filter:blur(14px); }
+        .wc-dark .b3 { width:180px;height:180px;background:rgba(130,130,130,0.35);top:-20px;right:-20px;filter:blur(44px); }
+        .wc-dark .b4 { width:140px;height:140px;background:rgba(80,80,80,0.25);bottom:-10px;left:-10px;filter:blur(36px); }
+
+        /* teal theme blobs */
+        .wc-teal .b1 { width:160px;height:260px;background:rgba(4,40,30,0.75);top:20px;left:50px;border-radius:40% 60% 60% 40%;filter:blur(24px); }
+        .wc-teal .b2 { width:90px;height:140px;background:rgba(2,25,18,0.6);top:60px;left:80px;border-radius:50%;filter:blur(14px); }
+        .wc-teal .b3 { width:180px;height:180px;background:rgba(96,168,160,0.28);top:-20px;right:-20px;filter:blur(44px); }
+        .wc-teal .b4 { width:140px;height:140px;background:rgba(5,80,55,0.4);bottom:-10px;left:-10px;filter:blur(36px); }
+
+        /* amber theme blobs */
+        .wc-amber .b1 { width:160px;height:260px;background:rgba(30,15,2,0.75);top:20px;left:50px;border-radius:40% 60% 60% 40%;filter:blur(24px); }
+        .wc-amber .b2 { width:90px;height:140px;background:rgba(20,8,0,0.6);top:60px;left:80px;border-radius:50%;filter:blur(14px); }
+        .wc-amber .b3 { width:180px;height:180px;background:rgba(144,128,200,0.3);top:-20px;right:-20px;filter:blur(44px); }
+        .wc-amber .b4 { width:140px;height:140px;background:rgba(100,50,0,0.35);bottom:-10px;left:-10px;filter:blur(36px); }
+
+        /* photo overlay */
+        .wc-photo { position:absolute;inset:0;z-index:1;background-size:cover;background-position:center;display:none; }
+        .wc-photo-overlay { position:absolute;inset:0;z-index:2;background:rgba(0,0,0,0.42);opacity:0;transition:opacity .4s; }
+        .wc-photo-overlay.on { opacity:1; }
+        .wc-glass { position:absolute;inset:0;z-index:3;background:rgba(170,170,170,0.05); }
+        .wc-body  { position:relative;z-index:4;padding:18px 16px 16px; }
+
+        .wc-pill { background:rgba(255,255,255,0.13);border:0.5px solid rgba(255,255,255,0.26);border-radius:100px;padding:3px 10px;font-size:8px;font-weight:300;color:rgba(255,255,255,0.8);letter-spacing:0.03em; }
+        .wc-logo { width:20px;height:20px;background:rgba(255,255,255,0.13);border:0.5px solid rgba(255,255,255,0.26);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:400;color:rgba(255,255,255,0.88);letter-spacing:-0.3px; }
+        .wc-headline { font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-0.6px;margin-bottom:2px; }
+        .wc-sub { font-size:9px;font-weight:300;color:rgba(255,255,255,0.4);letter-spacing:0.02em;margin-bottom:14px; }
+        .wc-divider { height:0.5px;background:rgba(255,255,255,0.14);margin:8px 0; }
+        .wc-stat-lbl { font-size:7px;font-weight:400;color:rgba(255,255,255,0.36);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:1px; }
+        .wc-stat-val { font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:-1px;line-height:1; }
+        .wc-stat-unit { font-family:'DM Sans',sans-serif;font-size:10px;font-weight:200;color:rgba(255,255,255,0.38); }
+        .wc-stat-note { font-size:8px;font-weight:300;color:rgba(255,255,255,0.35); }
+        .wc-mini-val { font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.4px;line-height:1; }
+        .wc-mini-unit { font-family:'DM Sans',sans-serif;font-size:8px;font-weight:300;color:rgba(255,255,255,0.32); }
+        .wc-mini-lbl { font-size:7px;font-weight:400;color:rgba(255,255,255,0.32);letter-spacing:0.04em;margin-top:2px;text-transform:uppercase; }
+
+        /* photo upload btn inside card */
+        .wc-upload-btn {
+          position:absolute;bottom:16px;right:16px;z-index:5;
+          width:30px;height:30px;border-radius:9px;
+          background:rgba(255,255,255,0.88);
+          border:none;cursor:pointer;
+          display:flex;align-items:center;justify-content:center;
+          transition:background .15s,transform .15s;
+        }
+        .wc-upload-btn:active { transform:scale(0.93); background:#fff; }
+      </style>
+
+      <!-- Card carousel -->
+      <div id="s18-carousel" style="display:flex;gap:10px;padding:0 20px 16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;" onscroll="onCarouselScroll()">
+
+        <!-- ── Card 0: Dark · Photo bg ── -->
+        <div class="s18-card wc" data-idx="0" onclick="selectCard(0)" style="scroll-snap-align:start;flex-shrink:0;width:200px;height:280px;border-radius:20px;position:relative;overflow:hidden;cursor:pointer;background:#888;border:2px solid #1762F9;box-shadow:0 0 0 3px rgba(23,98,249,0.25),0 8px 28px rgba(0,0,0,0.3);transition:transform .2s,box-shadow .2s;">
+          <div class="wc-blobs wc-dark"><div class="wc-blob b3"></div><div class="wc-blob b1"></div><div class="wc-blob b2"></div><div class="wc-blob b4"></div></div>
+          <div class="wc-photo" id="wc-photo-0"></div>
+          <div class="wc-photo-overlay" id="wc-overlay-0"></div>
+          <div class="wc-glass"></div>
+          <div class="wc-body">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <div class="wc-pill">Monthly Wrap · March</div>
+              <div class="wc-logo">Sp</div>
+            </div>
+            <div class="wc-headline wc-syne">You<br>showed up.</div>
+            <div class="wc-sub">8 sessions · 2 personal bests</div>
+            <div class="wc-stat-lbl">Sessions</div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+              <div class="wc-stat-val wc-syne">8</div>
+              <div class="wc-stat-note">First 30 days ✓</div>
+            </div>
+            <svg width="100%" height="18" viewBox="0 0 168 18" fill="none" style="display:block;margin-bottom:8px;"><polyline points="0,15 14,12 26,14 38,8 50,10 62,5 74,8 86,3 98,6 110,2 122,5 134,1 148,4 160,2 168,1" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="wc-divider"></div>
+            <div style="display:flex;margin:8px 0 0;gap:0;">
+              <div style="flex:1;padding-right:10px;">
+                <div class="wc-mini-val wc-syne">2,000 <span class="wc-mini-unit">kg</span></div>
+                <div class="wc-mini-lbl">Volume</div>
+              </div>
+              <div style="flex:1;padding:0 10px;border-left:0.5px solid rgba(255,255,255,0.12);">
+                <div class="wc-mini-val wc-syne">2 <span class="wc-mini-unit">PRs</span></div>
+                <div class="wc-mini-lbl">Records</div>
+              </div>
+              <div style="flex:1;padding-left:10px;border-left:0.5px solid rgba(255,255,255,0.12);">
+                <div class="wc-mini-val wc-syne">3 <span class="wc-mini-unit">wks</span></div>
+                <div class="wc-mini-lbl">Streak</div>
+              </div>
+            </div>
+          </div>
+          <button class="wc-upload-btn" id="wc-btn-0" onclick="event.stopPropagation();triggerUpload(0)" title="Add photo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </button>
+        </div>
+
+        <!-- ── Card 1: Teal ── -->
+        <div class="s18-card wc" data-idx="1" onclick="selectCard(1)" style="scroll-snap-align:start;flex-shrink:0;width:200px;height:280px;border-radius:20px;position:relative;overflow:hidden;cursor:pointer;background:#063d30;border:2px solid transparent;box-shadow:0 4px 20px rgba(0,0,0,0.2);transition:transform .2s,box-shadow .2s;">
+          <div class="wc-blobs wc-teal"><div class="wc-blob b3"></div><div class="wc-blob b1"></div><div class="wc-blob b2"></div><div class="wc-blob b4"></div></div>
+          <div class="wc-photo" id="wc-photo-1"></div>
+          <div class="wc-photo-overlay" id="wc-overlay-1"></div>
+          <div class="wc-glass"></div>
+          <div class="wc-body">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <div class="wc-pill">Monthly Wrap · March</div>
+              <div class="wc-logo">Sp</div>
+            </div>
+            <div class="wc-headline wc-syne">Month<br>one done.</div>
+            <div class="wc-sub">8 sessions · 2,000 kg lifted</div>
+            <div class="wc-stat-lbl">Total Volume</div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+              <div class="wc-stat-val wc-syne">2,000 <span class="wc-stat-unit">kg</span></div>
+              <div class="wc-stat-note">From zero</div>
+            </div>
+            <svg width="100%" height="18" viewBox="0 0 168 18" fill="none" style="display:block;margin-bottom:8px;"><polyline points="0,17 14,15 26,14 38,12 50,12 62,9 74,11 86,7 98,10 110,5 122,7 134,4 148,6 160,3 168,4" stroke="rgba(93,235,176,0.6)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="wc-divider"></div>
+            <div style="display:flex;margin:8px 0 0;">
+              <div style="flex:1;padding-right:10px;">
+                <div class="wc-mini-val wc-syne">8</div>
+                <div class="wc-mini-lbl">Sessions</div>
+              </div>
+              <div style="flex:1;padding:0 10px;border-left:0.5px solid rgba(255,255,255,0.12);">
+                <div class="wc-mini-val wc-syne">3 <span class="wc-mini-unit">wks</span></div>
+                <div class="wc-mini-lbl">Consistent</div>
+              </div>
+              <div style="flex:1;padding-left:10px;border-left:0.5px solid rgba(255,255,255,0.12);">
+                <div class="wc-mini-val wc-syne">40 <span class="wc-mini-unit">kg</span></div>
+                <div class="wc-mini-lbl">Squat PR</div>
+              </div>
+            </div>
+          </div>
+          <button class="wc-upload-btn" id="wc-btn-1" onclick="event.stopPropagation();triggerUpload(1)" title="Add photo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </button>
+        </div>
+
+        <!-- ── Card 2: Amber ── -->
+        <div class="s18-card wc" data-idx="2" onclick="selectCard(2)" style="scroll-snap-align:start;flex-shrink:0;width:200px;height:280px;border-radius:20px;position:relative;overflow:hidden;cursor:pointer;background:#2A1E60;border:2px solid transparent;box-shadow:0 4px 20px rgba(0,0,0,0.2);transition:transform .2s,box-shadow .2s;">
+          <div class="wc-blobs wc-amber"><div class="wc-blob b3"></div><div class="wc-blob b1"></div><div class="wc-blob b2"></div><div class="wc-blob b4"></div></div>
+          <div class="wc-photo" id="wc-photo-2"></div>
+          <div class="wc-photo-overlay" id="wc-overlay-2"></div>
+          <div class="wc-glass"></div>
+          <div class="wc-body">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <div class="wc-pill">Monthly Wrap · March</div>
+              <div class="wc-logo">Sp</div>
+            </div>
+            <div class="wc-headline wc-syne">PR set.<br>Habit built.</div>
+            <div class="wc-sub">Squat 40 kg · Bench 30 kg</div>
+            <div class="wc-stat-lbl">Best Lift</div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+              <div class="wc-stat-val wc-syne">40 <span class="wc-stat-unit">kg</span></div>
+              <div class="wc-stat-note">All-time best ↑</div>
+            </div>
+            <svg width="100%" height="18" viewBox="0 0 168 18" fill="none" style="display:block;margin-bottom:8px;"><polyline points="0,17 24,16 48,15 72,13 96,11 110,10 124,7 136,8 148,5 160,6 168,4" stroke="rgba(176,160,240,0.6)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="wc-divider"></div>
+            <div style="display:flex;margin:8px 0 0;">
+              <div style="flex:1;padding-right:10px;">
+                <div class="wc-mini-val wc-syne">8</div>
+                <div class="wc-mini-lbl">Sessions</div>
+              </div>
+              <div style="flex:1;padding:0 10px;border-left:0.5px solid rgba(255,255,255,0.12);">
+                <div class="wc-mini-val wc-syne">2 <span class="wc-mini-unit">PRs</span></div>
+                <div class="wc-mini-lbl">This month</div>
+              </div>
+              <div style="flex:1;padding-left:10px;border-left:0.5px solid rgba(255,255,255,0.12);">
+                <div class="wc-mini-val wc-syne">30 <span class="wc-mini-unit">d</span></div>
+                <div class="wc-mini-lbl">Badge</div>
+              </div>
+            </div>
+          </div>
+          <button class="wc-upload-btn" id="wc-btn-2" onclick="event.stopPropagation();triggerUpload(2)" title="Add photo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </button>
+        </div>
+
+      </div><!-- carousel -->
+
+      <!-- Hidden file input for photo upload -->
+      <input type="file" id="s18-file-input" accept="image/*" style="display:none;">
+
+      <!-- Photo hint -->
+      <div id="s18-photo-hint" style="display:flex;align-items:center;justify-content:center;gap:6px;margin:-4px 0 12px;font-size:10px;font-weight:400;color:#68788C;font-family:'Outfit',sans-serif;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#68788C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Tap <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#68788C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 2px;"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> on a card to add your photo
+      </div>
+
+      <!-- Carousel dots -->
+      <div style="display:flex;justify-content:center;gap:6px;margin-bottom:16px;">
+        <div class="s18-dot" data-idx="0" style="width:18px;height:5px;border-radius:3px;background:#1762F9;transition:all .3s;"></div>
+        <div class="s18-dot" data-idx="1" style="width:6px;height:5px;border-radius:3px;background:rgba(0,0,0,0.15);transition:all .3s;"></div>
+        <div class="s18-dot" data-idx="2" style="width:6px;height:5px;border-radius:3px;background:rgba(0,0,0,0.15);transition:all .3s;"></div>
+      </div>
+
+      <!-- Share to section label -->
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:#68788C;padding:0 20px 14px;">Share to</div>
+
+      <!-- Share destination row -->
+      <div style="display:flex;gap:10px;padding:0 20px;overflow-x:auto;padding-bottom:4px;">
+
+        <!-- Instagram -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;flex-shrink:0;">
+          <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(188,24,136,0.35);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="2" width="20" height="20" rx="6" stroke="white" stroke-width="2"/>
+              <circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="2"/>
+              <circle cx="17.5" cy="6.5" r="1.2" fill="white"/>
+            </svg>
+          </div>
+          <span style="font-size:10px;font-weight:500;color:#1A1A2E;letter-spacing:0.01em;">Instagram</span>
+        </div>
+
+        <!-- Stories (Instagram Stories) -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;flex-shrink:0;">
+          <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(131,58,180,0.35);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="4" fill="white"/>
+              <path d="M5.5 5.5 A9.2 9.2 0 0 1 18.5 5.5" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M3 12 A9 9 0 0 1 5.5 5.5" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M18.5 5.5 A9 9 0 0 1 21 12" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M5.5 18.5 A9 9 0 0 1 3 12" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M21 12 A9 9 0 0 1 18.5 18.5" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M5.5 18.5 A9.2 9.2 0 0 0 18.5 18.5" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <span style="font-size:10px;font-weight:500;color:#1A1A2E;letter-spacing:0.01em;">Stories</span>
+        </div>
+
+        <!-- X / Twitter -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;flex-shrink:0;">
+          <div style="width:52px;height:52px;border-radius:16px;background:#000;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.25);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L2.25 2.25h6.832l4.26 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </div>
+          <span style="font-size:10px;font-weight:500;color:#1A1A2E;letter-spacing:0.01em;">X</span>
+        </div>
+
+        <!-- WhatsApp -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;flex-shrink:0;">
+          <div style="width:52px;height:52px;border-radius:16px;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(37,211,102,0.35);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.978-1.301A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.963 7.963 0 01-4.167-1.177l-.3-.177-3.1.812.826-3.02-.196-.31A7.963 7.963 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/>
+            </svg>
+          </div>
+          <span style="font-size:10px;font-weight:500;color:#1A1A2E;letter-spacing:0.01em;">WhatsApp</span>
+        </div>
+
+        <!-- Copy link -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;flex-shrink:0;">
+          <div style="width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,0.72);backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.07);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+            </svg>
+          </div>
+          <span style="font-size:10px;font-weight:500;color:#1A1A2E;letter-spacing:0.01em;">Copy Link</span>
+        </div>
+
+        <!-- Save to photos -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;flex-shrink:0;">
+          <div style="width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,0.72);backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.07);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="3"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+          </div>
+          <span style="font-size:10px;font-weight:500;color:#1A1A2E;letter-spacing:0.01em;">Save Image</span>
+        </div>
+
+      </div><!-- share row -->
+
+    </div><!-- sheet -->
+  </div><!-- s18 -->
+
+</div><!-- phone -->
+
+<style>
+/* ── S17 shared component styles ── */
+.m17-bc {
+  border-radius:18px; padding:13px 11px; cursor:pointer;
+  transition:all .22s ease; position:relative;
+  background:rgba(255,255,255,0.35);
+  backdrop-filter:blur(16px) saturate(1.5);
+  -webkit-backdrop-filter:blur(16px) saturate(1.5);
+  border:1px solid rgba(255,255,255,0.6);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.8),0 2px 8px rgba(0,0,0,0.05);
+}
+.m17-bc:hover:not(.active) { background:rgba(255,255,255,0.5); transform:translateY(-1px); }
+.m17-bc.active {
+  background:rgba(255,255,255,0.75);
+  border-color:rgba(255,255,255,0.9);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.95),0 0 0 2.5px var(--mc1),0 4px 16px rgba(0,0,0,0.08);
+}
+.m17-hlcard {
+  background:rgba(255,255,255,0.52);
+  backdrop-filter:blur(20px) saturate(1.7);
+  -webkit-backdrop-filter:blur(20px) saturate(1.7);
+  border:1px solid rgba(255,255,255,0.8);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.92),0 4px 16px rgba(0,0,0,0.07);
+  border-radius:16px; padding:14px 16px;
+  display:flex; align-items:center; gap:13px; margin-bottom:8px;
+}
+.m17-icon {
+  width:38px; height:38px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:17px; flex-shrink:0;
+  border:1px solid rgba(255,255,255,0.85);
+}
+.m17-htitle { font-size:13px; font-weight:500; color:#1A1A2E; margin-bottom:2px; }
+.m17-hsub   { font-size:11px; color:#68788C; font-weight:400; }
+.m17-hval   { font-size:22px; font-weight:300; letter-spacing:-0.02em; flex-shrink:0; text-align:right; }
+.m17-hunit  { font-size:12px; font-weight:400; letter-spacing:0; }
+.m17-notescard {
+  background:rgba(255,255,255,0.52);
+  backdrop-filter:blur(20px) saturate(1.7);
+  -webkit-backdrop-filter:blur(20px) saturate(1.7);
+  border:1px solid rgba(255,255,255,0.8);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.92),0 4px 16px rgba(0,0,0,0.07);
+  border-radius:16px; padding:4px 16px; margin-bottom:8px;
+}
+.m17-note { padding:13px 0; border-bottom:1px solid rgba(0,0,0,0.06); }
+.m17-ndate { font-size:10px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#68788C; margin-bottom:5px; }
+.m17-nquote { font-size:13px; font-weight:300; color:#1A1A2E; line-height:1.65; font-style:italic; }
+.m17-chip { display:inline-flex; align-items:center; gap:4px; margin-top:7px; font-size:10px; font-weight:500; padding:3px 9px; border-radius:20px; letter-spacing:0.03em; }
+.m17-pmcard {
+  border-radius:16px; padding:16px 18px; margin-bottom:8px;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.5);
+}
+.m17-pmey { font-size:9px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:6px; opacity:0.55; color:#1A1A2E; }
+.m17-pmbody { font-size:13px; font-weight:300; line-height:1.7; color:#1A1A2E; }
+.m17-pmbody b { font-weight:600; }
+.m17-badge-hero { position:relative; overflow:hidden; }
+.m17-badge-hero::before { content:''; position:absolute; inset:0; pointer-events:none; background:rgba(255,255,255,0.06); border-radius:inherit; }
+.m17-badge-emoji { display:block; }
+.m17-badge-hero.anim .m17-badge-emoji { animation:m17BadgePop .65s cubic-bezier(0.22,1,0.36,1) both; }
+@keyframes m17BadgePop {
+  0%  { transform:scale(0.4) rotate(-12deg); opacity:0; }
+  65% { transform:scale(1.18) rotate(4deg); }
+  100%{ transform:scale(1) rotate(0); opacity:1; }
+}
+.m17-panel::-webkit-scrollbar { display:none; }
+</style>
+
+<script>
+(function() {
+
+  /* ════════════════════════
+     S16 Wrapped logic
+  ════════════════════════ */
+  var TOTAL = 4;
+  var DUR   = 6500;
+  var cur   = 0;
+  var storyTimer = null;
+  var animTimers = [];
+
+  var widgets = {
+    sl0: { id:'sl0-wbars', grad:'linear-gradient(180deg,#4E88FA,#1762F9)', cols:[{c:2,p:0},{c:3,p:0},{c:2,p:0},{c:1,p:0}] },
+    sl1: { id:'sl1-wbars', grad:'linear-gradient(180deg,#D0C8F0,#9080C8)', cols:[{c:600,p:0},{c:800,p:0},{c:900,p:0},{c:900,p:0}] },
+    sl2: { id:'sl2-wbars', grad:'linear-gradient(180deg,#B8D4D0,#60A8A0)', cols:[{c:5,p:0},{c:4,p:0},{c:5,p:0},{c:5,p:0}] },
+    sl3: { id:'sl3-wbars', grad:'linear-gradient(180deg,#D0C8F0,#9080C8)', cols:[{c:40,p:30},{c:30,p:20},{c:50,p:0}] }
+  };
+
+  function buildWidgets() {
+    Object.keys(widgets).forEach(function(sid) {
+      var w = widgets[sid];
+      var container = document.getElementById(w.id); if (!container) return;
+      container.innerHTML = '';
+      var maxV = 0;
+      w.cols.forEach(function(col){ if(col.c>maxV) maxV=col.c; if(col.p>maxV) maxV=col.p; });
+      w.cols.forEach(function(col, i) {
+        var cp = (col.c/maxV*100).toFixed(1); var pp = (col.p/maxV*100).toFixed(1);
+        var pair = document.createElement('div');
+        pair.style.cssText = 'display:flex;gap:2px;align-items:flex-end;flex:1;height:100%;';
+        pair.innerHTML =
+          '<div class="sw-bar sw-prev" id="wp-'+sid+'-'+i+'" data-pct="'+pp+'" style="height:0%;"></div>' +
+          '<div class="sw-bar" id="wc-'+sid+'-'+i+'" data-pct="'+cp+'" style="height:0%;background:'+w.grad+';border-radius:3px 3px 0 0;"></div>';
+        container.appendChild(pair);
+      });
+    });
+  }
+
+  function animateWidget(sid, baseDelay) {
+    var w = widgets[sid]; if (!w) return;
+    var sorted = w.cols.map(function(col,i){ return {col:col,i:i}; }).sort(function(a,b){ return b.col.c - a.col.c; });
+    sorted.forEach(function(obj, order) {
+      var i = obj.i; var delay = baseDelay + order * 90;
+      var t = setTimeout(function() {
+        var cEl = document.getElementById('wc-'+sid+'-'+i);
+        var pEl = document.getElementById('wp-'+sid+'-'+i);
+        if (cEl) cEl.style.height = cEl.dataset.pct + '%';
+        if (pEl) pEl.style.height = pEl.dataset.pct + '%';
+      }, delay);
+      animTimers.push(t);
+    });
+  }
+
+  function resetWidget(sid) {
+    var w = widgets[sid]; if (!w) return;
+    w.cols.forEach(function(col, i) {
+      ['wc','wp'].forEach(function(pfx) {
+        var el = document.getElementById(pfx+'-'+sid+'-'+i);
+        if (el) { el.style.transition='none'; el.style.height='0%'; void el.offsetWidth; el.style.transition=''; }
+      });
+    });
+  }
+
+  var seqs = {
+    sl0:[{el:'sl0-lbl',cls:'anim-slideR',delay:0},{el:'sl0-num',cls:'anim-popIn',delay:160},{el:'sl0-txt',cls:'anim-fadeUp',delay:380},{el:'sl0-cards',cls:'anim-fadeUp',delay:560},{el:'sl0-widget',cls:'anim-fadeUp',delay:720},{el:'sl0-cta',cls:'anim-fadeUp',delay:860}],
+    sl1:[{el:'sl1-lbl',cls:'anim-slideR',delay:0},{el:'sl1-num',cls:'anim-popIn',delay:160},{el:'sl1-txt',cls:'anim-fadeUp',delay:380},{el:'sl1-cards',cls:'anim-fadeUp',delay:560},{el:'sl1-widget',cls:'anim-fadeUp',delay:720},{el:'sl1-cta',cls:'anim-fadeUp',delay:860}],
+    sl2:[{el:'sl2-lbl',cls:'anim-slideR',delay:0},{el:'sl2-num',cls:'anim-popIn',delay:160},{el:'sl2-txt',cls:'anim-fadeUp',delay:380},{el:'sl2-cards',cls:'anim-fadeUp',delay:560},{el:'sl2-widget',cls:'anim-fadeUp',delay:720},{el:'sl2-cta',cls:'anim-fadeUp',delay:860}],
+    sl3:[{el:'sl3-lbl',cls:'anim-slideR',delay:0},{el:'sl3-num',cls:'anim-popIn',delay:160},{el:'sl3-txt',cls:'anim-fadeUp',delay:380},{el:'sl3-cards',cls:'anim-fadeUp',delay:560},{el:'sl3-widget',cls:'anim-fadeUp',delay:720},{el:'sl3-cta',cls:'anim-fadeUp',delay:860}]
+  };
+
+  function clearAnimTimers() { animTimers.forEach(clearTimeout); animTimers=[]; }
+
+  function resetSlide(id) {
+    var seq = seqs[id]; if (!seq) return;
+    seq.forEach(function(s) {
+      var el = document.getElementById(s.el); if (!el) return;
+      el.classList.remove(s.cls); el.style.opacity='0'; void el.offsetWidth;
+    });
+    resetWidget(id);
+  }
+
+  function runSlide(id) {
+    clearAnimTimers();
+    var seq = seqs[id]; if (!seq) return;
+    seq.forEach(function(s) {
+      var t = setTimeout(function() {
+        var el = document.getElementById(s.el); if (!el) return;
+        el.classList.add(s.cls);
+      }, s.delay);
+      animTimers.push(t);
+    });
+    animateWidget(id, 960);
+  }
+
+  function stopStory() { if (storyTimer) { clearTimeout(storyTimer); storyTimer=null; } }
+  function startStory(idx) {
+    stopStory();
+    for (var i=0;i<TOTAL;i++) {
+      var f=document.getElementById('bar'+i); if(!f) continue;
+      f.classList.remove('active','done'); f.style.width=i<idx?'100%':'0%';
+      if(i<idx) f.classList.add('done');
+    }
+    var bar=document.getElementById('bar'+idx);
+    if(bar){ bar.style.setProperty('--dur',(DUR/1000)+'s'); bar.classList.add('active'); }
+    storyTimer=setTimeout(function(){ if(cur<TOTAL-1) goSlide(cur+1); }, DUR);
+  }
+
+  function goSlide(idx) {
+    ['sl0','sl1','sl2','sl3'].forEach(function(id){ resetSlide(id); document.getElementById(id).classList.remove('show'); });
+    cur=idx;
+    var target=document.getElementById('sl'+idx);
+    if(target){ target.classList.add('show'); requestAnimationFrame(function(){ requestAnimationFrame(function(){ runSlide('sl'+idx); }); }); }
+    startStory(idx);
+  }
+
+  /* ════════════════════════
+     Shared screen switch
+  ════════════════════════ */
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('show'); });
+    document.getElementById(id).classList.add('show');
+    var hb = document.getElementById('home-bar');
+    hb.style.background = id === 's15' ? 'rgba(0,0,0,0.18)' : id === 's17' ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.3)';
+    if (id === 's17') {
+      setTimeout(function(){ m17AnimCounters(document.getElementById('m17-bento')); }, 100);
+    }
+  }
+
+  /* ════════════════════════
+     S15 buttons
+  ════════════════════════ */
+  document.getElementById('btn-see').addEventListener('click',function(){ showScreen('s16'); goSlide(0); });
+  document.getElementById('btn-skip').addEventListener('click',function(){ showScreen('s17'); m17SelectTab(0, true); });
+  document.getElementById('btn-back').addEventListener('click',function(){ stopStory(); clearAnimTimers(); showScreen('s15'); });
+
+  /* S16 slide CTAs */
+  document.getElementById('sl0-cta').addEventListener('click',function(e){ e.stopPropagation(); goSlide(1); });
+  document.getElementById('sl1-cta').addEventListener('click',function(e){ e.stopPropagation(); goSlide(2); });
+  document.getElementById('sl2-cta').addEventListener('click',function(e){ e.stopPropagation(); goSlide(3); });
+  /* sl3 Done → go to S17 */
+  document.getElementById('sl3-cta').addEventListener('click',function(e){
+    e.stopPropagation();
+    stopStory(); clearAnimTimers();
+    showScreen('s17');
+    m17SelectTab(0, true);
+  });
+
+  /* Tap left/right on S16 */
+  document.querySelector('.slides-wrap').addEventListener('click',function(e) {
+    if(e.target.closest('button')) return;
+    var rect=document.querySelector('.phone').getBoundingClientRect();
+    if(e.clientX>rect.left+rect.width/2){ if(cur<TOTAL-1) goSlide(cur+1); }
+    else{ if(cur>0) goSlide(cur-1); }
+  });
+
+  /* ════════════════════════
+     S17 Milestone logic
+  ════════════════════════ */
+  function m17AnimCounters(root) {
+    root.querySelectorAll('.m17-cnt').forEach(function(el) {
+      var target = parseFloat(el.dataset.to);
+      var dec    = parseInt(el.dataset.dec || 0);
+      var dur    = 950; var startT = null;
+      function fmt(v){ return dec>0?v.toFixed(dec):Math.round(v); }
+      function step(ts){
+        if(!startT) startT=ts;
+        var p=Math.min((ts-startT)/dur,1);
+        var ease=1-Math.pow(1-p,3);
+        el.textContent=fmt(ease*target);
+        if(p<1) requestAnimationFrame(step);
+        else el.textContent=fmt(target);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  function m17TriggerBadge(panel) {
+    var el = panel.querySelector('.m17-badge-hero'); if (!el) return;
+    el.classList.remove('anim'); void el.offsetWidth; el.classList.add('anim');
+  }
+
+  function m17SelectTab(idx, animate) {
+    document.querySelectorAll('.m17-bc').forEach(function(c,i){ c.classList.toggle('active', i===idx); });
+    document.querySelectorAll('.m17-tab').forEach(function(t,i){
+      t.style.color    = i===idx ? '#1762F9' : '#68788C';
+      t.style.borderBottomColor = i===idx ? '#1762F9' : 'transparent';
+    });
+    document.querySelectorAll('.m17-panel').forEach(function(p,i){
+      var wasActive = p.style.opacity==='1';
+      p.style.opacity    = i===idx ? '1' : '0';
+      p.style.visibility = i===idx ? 'visible' : 'hidden';
+      if(i===idx && (!wasActive || animate)){
+        setTimeout(function(){ m17AnimCounters(p); m17TriggerBadge(p); }, 60);
+      }
+    });
+  }
+
+  window.m17SelectTab = m17SelectTab;
+
+  /* S17 bento + tab clicks */
+  document.querySelectorAll('.m17-bc').forEach(function(el){
+    el.addEventListener('click', function(){ m17SelectTab(parseInt(el.dataset.tab)); });
+  });
+  document.querySelectorAll('.m17-tab').forEach(function(el){
+    el.addEventListener('click', function(){ m17SelectTab(parseInt(el.dataset.tab)); });
+  });
+
+  /* S17 back → S16 */
+  document.getElementById('s17-back').addEventListener('click', function(){
+    showScreen('s16');
+    /* Resume on last slide without re-animating */
+    document.getElementById('sl'+cur).classList.add('show');
+  });
+
+  /* S17 share button → S18 */
+  document.getElementById('s17-share').addEventListener('click', openShare);
+
+  /* ════════════════════════
+     S18 Share Sheet
+  ════════════════════════ */
+  var s18ActiveCard = 0;
+
+  function openShare() {
+    var s18 = document.getElementById('s18');
+    s18.style.opacity = '1';
+    s18.style.visibility = 'visible';
+    s18.style.pointerEvents = 'all';
+    setTimeout(function() {
+      document.getElementById('s18-sheet').style.transform = 'translateY(0)';
+    }, 20);
+  }
+
+  function closeShare() {
+    document.getElementById('s18-sheet').style.transform = 'translateY(100%)';
+    setTimeout(function() {
+      var s18 = document.getElementById('s18');
+      s18.style.opacity = '0';
+      s18.style.visibility = 'hidden';
+      s18.style.pointerEvents = 'none';
+    }, 420);
+  }
+
+  function selectCard(idx) {
+    s18ActiveCard = idx;
+    document.querySelectorAll('.s18-card').forEach(function(c, i) {
+      var on = i === idx;
+      c.style.borderColor = on ? '#1762F9' : 'transparent';
+      c.style.boxShadow   = on ? '0 0 0 3px rgba(23,98,249,0.25),0 8px 32px rgba(0,0,0,0.18)' : '0 4px 20px rgba(0,0,0,0.14)';
+      c.style.transform   = on ? 'scale(1.02)' : 'scale(1)';
+    });
+    document.querySelectorAll('.s18-dot').forEach(function(d, i) {
+      d.style.width      = i === idx ? '18px' : '6px';
+      d.style.background = i === idx ? '#1762F9' : 'rgba(0,0,0,0.15)';
+    });
+    var carousel = document.getElementById('s18-carousel');
+    var cards = carousel.querySelectorAll('.s18-card');
+    if (cards[idx]) cards[idx].scrollIntoView({ behavior:'smooth', inline:'start', block:'nearest' });
+  }
+
+  function onCarouselScroll() {
+    var carousel = document.getElementById('s18-carousel');
+    var idx = Math.round(carousel.scrollLeft / 210);
+    if (idx !== s18ActiveCard) selectCard(idx);
+  }
+
+  /* ── Photo upload for wrap cards ── */
+  var s18UploadTarget = 0;
+
+  function triggerUpload(cardIdx) {
+    s18UploadTarget = cardIdx;
+    document.getElementById('s18-file-input').value = '';
+    document.getElementById('s18-file-input').click();
+  }
+
+  document.getElementById('s18-file-input').addEventListener('change', function(e) {
+    var file = e.target.files[0]; if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var i = s18UploadTarget;
+      var photo   = document.getElementById('wc-photo-' + i);
+      var overlay = document.getElementById('wc-overlay-' + i);
+      var btn     = document.getElementById('wc-btn-' + i);
+      if (!photo) return;
+      photo.style.backgroundImage = 'url(' + ev.target.result + ')';
+      photo.style.display = 'block';
+      overlay.classList.add('on');
+      /* Change btn to remove icon */
+      btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      btn.onclick = function(ev2) { ev2.stopPropagation(); removePhoto(i); };
+      selectCard(i);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function removePhoto(cardIdx) {
+    var i = cardIdx;
+    var photo   = document.getElementById('wc-photo-' + i);
+    var overlay = document.getElementById('wc-overlay-' + i);
+    var btn     = document.getElementById('wc-btn-' + i);
+    if (!photo) return;
+    photo.style.backgroundImage = '';
+    photo.style.display = 'none';
+    overlay.classList.remove('on');
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>';
+    btn.onclick = function(ev2) { ev2.stopPropagation(); triggerUpload(i); };
+  }
+
+  window.triggerUpload = triggerUpload;
+  window.removePhoto   = removePhoto;
+  window.closeShare = closeShare;
+  window.selectCard = selectCard;
+  window.onCarouselScroll = onCarouselScroll;
+
+  /* Init */
+  buildWidgets();
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ runSlide('sl0'); }); });
+
+})();
+</script>
+</body>
+</html>
